@@ -1,0 +1,48 @@
+
+{
+  "manifest_version": 3,
+  "name": "Ghostly Tab Viewer",
+  "version": "1.0.0",
+  "description": "Web transparency simulator with customizable colors and keyboard shortcuts",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["transparency.css"],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Toggle Transparency"
+  },
+  "commands": {
+    "toggle-transparency": {
+      "suggested_key": {
+        "default": "Alt+F12"
+      },
+      "description": "Toggle transparency mode"
+    },
+    "disable-transparency": {
+      "suggested_key": {
+        "default": "Alt+F11"
+      },
+      "description": "Disable transparency mode"
+    }
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}

@@ -1,0 +1,30 @@
+
+/* CSS for transparency effects */
+#ghostly-transparency-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: none;
+  backdrop-filter: blur(2px);
+  transition: all 0.3s ease-in-out;
+  display: none;
+}
+
+/* Pulse animation for desktop simulation */
+@keyframes ghostly-pulse {
+  0%, 100% { 
+    opacity: 0.3; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.6; 
+    transform: scale(1.05);
+  }
+}
+
+.ghostly-animate {
+  animation: ghostly-pulse 2s infinite;
+}

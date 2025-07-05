@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 300px;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+    .control-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, button {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+    button {
+      background: #4169E1;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #365BB0;
+    }
+    .color-picker {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    input[type="color"] {
+      width: 50px;
+      height: 30px;
+      border: none;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Ghostly Tab Viewer</h3>
+  
+  <div class="control-group">
+    <button id="toggleBtn">Toggle Transparency</button>
+  </div>
+  
+  <div class="control-group">
+    <label>Opacity:</label>
+    <input type="range" id="opacitySlider" min="5" max="100" value="50" step="5">
+    <span id="opacityValue">50%</span>
+  </div>
+  
+  <div class="control-group">
+    <label>Color Theme:</label>
+    <div class="color-picker">
+      <input type="color" id="colorPicker" value="#4169E1">
+      <input type="text" id="colorInput" value="#4169E1" placeholder="#4169E1">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <small>Shortcuts: Alt+F12 (toggle), Alt+F11 (disable)</small>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
