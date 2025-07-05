@@ -93,7 +93,7 @@ const TransparencyApp = () => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-white mb-4">
-              Ghostly Tab Viewer - Web Extension
+              Ghostify Tab - Web Extension
             </h1>
             <p className="text-white/80 text-lg">
               Web transparency simulator - Press Alt+F12 or use controls below
