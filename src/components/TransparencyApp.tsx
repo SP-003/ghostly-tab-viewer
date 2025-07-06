@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Settings, Eye, EyeOff, Keyboard, Palette } from 'lucide-react';
+import { Settings, Eye, EyeOff, Keyboard, Palette, Shield, Info, Mail } from 'lucide-react';
 import { toast } from 'sonner';
 
 const TransparencyApp = () => {
@@ -96,7 +95,7 @@ const TransparencyApp = () => {
               Ghostify Tab - Web Extension
             </h1>
             <p className="text-white/80 text-lg">
-              Web transparency simulator - Press Alt+F12 or use controls below
+              Web transparency simulator - Press Ctrl+Shift+T or use controls below
             </p>
           </div>
 
@@ -190,80 +189,128 @@ const TransparencyApp = () => {
             </CardContent>
           </Card>
 
-          {/* Demo Content Area */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Information Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            {/* Keyboard Shortcuts Card */}
             <Card className={`transition-all duration-300 ${
               isTransparent ? 'bg-white/5 backdrop-blur-sm border-white/20' : 'bg-white'
             }`}>
               <CardContent className="p-6">
-                <h3 className={`text-xl font-semibold mb-4 ${isTransparent ? 'text-white' : 'text-gray-800'}`}>
-                  Keyboard Shortcuts
-                </h3>
-                <div className="space-y-2 text-sm">
-                  <div className={`flex justify-between ${isTransparent ? 'text-white/90' : 'text-gray-600'}`}>
+                <div className="flex items-center space-x-2 mb-4">
+                  <Keyboard className={`w-5 h-5 ${isTransparent ? 'text-white/80' : 'text-gray-500'}`} />
+                  <h3 className={`text-xl font-semibold ${isTransparent ? 'text-white' : 'text-gray-800'}`}>
+                    Keyboard Shortcuts
+                  </h3>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <div className={`flex justify-between items-center ${isTransparent ? 'text-white/90' : 'text-gray-600'}`}>
                     <span>Toggle Transparency:</span>
-                    <code className="bg-gray-100/20 px-2 py-1 rounded">Alt+F12</code>
+                    <code className="bg-gray-100/20 px-2 py-1 rounded font-mono text-xs">Ctrl+Shift+T</code>
                   </div>
-                  <div className={`flex justify-between ${isTransparent ? 'text-white/90' : 'text-gray-600'}`}>
+                  <div className={`flex justify-between items-center ${isTransparent ? 'text-white/90' : 'text-gray-600'}`}>
                     <span>Disable Mode:</span>
-                    <code className="bg-gray-100/20 px-2 py-1 rounded">Alt+F11</code>
+                    <code className="bg-gray-100/20 px-2 py-1 rounded font-mono text-xs">Ctrl+Shift+D</code>
+                  </div>
+                  <div className={`text-xs mt-3 p-2 rounded ${isTransparent ? 'bg-white/5' : 'bg-gray-50'}`}>
+                    <p className={isTransparent ? 'text-white/70' : 'text-gray-500'}>
+                      Note: Extension shortcuts work globally across all browser tabs when the extension is installed.
+                    </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
+            {/* How to Use Card */}
             <Card className={`transition-all duration-300 ${
               isTransparent ? 'bg-white/5 backdrop-blur-sm border-white/20' : 'bg-white'
             }`}>
               <CardContent className="p-6">
-                <h3 className={`text-xl font-semibold mb-4 ${isTransparent ? 'text-white' : 'text-gray-800'}`}>
-                  Status
-                </h3>
+                <div className="flex items-center space-x-2 mb-4">
+                  <Settings className={`w-5 h-5 ${isTransparent ? 'text-white/80' : 'text-gray-500'}`} />
+                  <h3 className={`text-xl font-semibold ${isTransparent ? 'text-white' : 'text-gray-800'}`}>
+                    How to Use
+                  </h3>
+                </div>
                 <div className="space-y-2 text-sm">
-                  <div className={`flex justify-between ${isTransparent ? 'text-white/90' : 'text-gray-600'}`}>
-                    <span>Mode:</span>
-                    <span className={`font-medium ${isTransparent ? 'text-green-300' : 'text-blue-600'}`}>
-                      {isTransparent ? 'Transparent' : 'Normal'}
-                    </span>
+                  <div className={`${isTransparent ? 'text-white/90' : 'text-gray-600'}`}>
+                    <p className="mb-2">1. Install the extension in Chrome Developer Mode</p>
+                    <p className="mb-2">2. Click the extension icon or use Ctrl+Shift+T</p>
+                    <p className="mb-2">3. Adjust opacity and color themes as needed</p>
+                    <p className="mb-2">4. Use Ctrl+Shift+D to quickly disable</p>
                   </div>
-                  <div className={`flex justify-between ${isTransparent ? 'text-white/90' : 'text-gray-600'}`}>
-                    <span>Opacity:</span>
-                    <span>{opacity[0]}%</span>
-                  </div>
-                  <div className={`flex justify-between ${isTransparent ? 'text-white/90' : 'text-gray-600'}`}>
-                    <span>Color:</span>
-                    <span>{customColor}</span>
-                  </div>
-                  <div className={`flex justify-between ${isTransparent ? 'text-white/90' : 'text-gray-600'}`}>
-                    <span>Keyboard:</span>
-                    <span>{enableKeyboard ? 'Enabled' : 'Disabled'}</span>
+                  <div className={`text-xs mt-3 p-2 rounded ${isTransparent ? 'bg-white/5' : 'bg-gray-50'}`}>
+                    <p className={isTransparent ? 'text-white/70' : 'text-gray-500'}>
+                      Perfect for screenshot transparency, design overlays, or creative presentations.
+                    </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Extension Info Section */}
-          <Card className={`mt-8 transition-all duration-300 ${
-            isTransparent ? 'bg-white/5 backdrop-blur-sm border-white/20' : 'bg-white'
-          }`}>
-            <CardContent className="p-6">
-              <div className="flex items-start space-x-3">
-                <Settings className={`w-5 h-5 mt-1 ${isTransparent ? 'text-white/80' : 'text-gray-500'}`} />
-                <div>
-                  <h4 className={`font-semibold mb-2 ${isTransparent ? 'text-white' : 'text-gray-800'}`}>
-                    Web Extension Demo
-                  </h4>
-                  <p className={`text-sm leading-relaxed ${isTransparent ? 'text-white/80' : 'text-gray-600'}`}>
-                    This demonstrates how a web extension for browser transparency might work. In a real extension, 
-                    this would run as a content script injected into web pages, with background scripts handling 
-                    the keyboard shortcuts globally. The transparency effects simulate seeing through the browser 
-                    to the desktop beneath using custom color themes and opacity controls.
-                  </p>
+          {/* Bottom Cards Row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Privacy Benefits Card */}
+            <Card className={`transition-all duration-300 ${
+              isTransparent ? 'bg-white/5 backdrop-blur-sm border-white/20' : 'bg-white'
+            }`}>
+              <CardContent className="p-6">
+                <div className="flex items-center space-x-2 mb-4">
+                  <Shield className={`w-5 h-5 ${isTransparent ? 'text-white/80' : 'text-gray-500'}`} />
+                  <h3 className={`text-xl font-semibold ${isTransparent ? 'text-white' : 'text-gray-800'}`}>
+                    Privacy & Benefits
+                  </h3>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+                <div className="space-y-2 text-sm">
+                  <div className={`${isTransparent ? 'text-white/90' : 'text-gray-600'}`}>
+                    <p className="mb-2">• <strong>Screen Privacy:</strong> Hide sensitive content during screen sharing</p>
+                    <p className="mb-2">• <strong>Presentation Mode:</strong> Create clean overlays for demos</p>
+                    <p className="mb-2">• <strong>Local Processing:</strong> All effects run locally, no data sent</p>
+                    <p className="mb-2">• <strong>Quick Toggle:</strong> Instant on/off for any situation</p>
+                  </div>
+                  <div className={`text-xs mt-3 p-2 rounded ${isTransparent ? 'bg-white/5' : 'bg-gray-50'}`}>
+                    <p className={isTransparent ? 'text-white/70' : 'text-gray-500'}>
+                      No tracking, no data collection - your browsing stays private.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* About & Contact Card */}
+            <Card className={`transition-all duration-300 ${
+              isTransparent ? 'bg-white/5 backdrop-blur-sm border-white/20' : 'bg-white'
+            }`}>
+              <CardContent className="p-6">
+                <div className="flex items-center space-x-2 mb-4">
+                  <Info className={`w-5 h-5 ${isTransparent ? 'text-white/80' : 'text-gray-500'}`} />
+                  <h3 className={`text-xl font-semibold ${isTransparent ? 'text-white' : 'text-gray-800'}`}>
+                    About & Contact
+                  </h3>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <div className={`${isTransparent ? 'text-white/90' : 'text-gray-600'}`}>
+                    <p className="mb-3">Ghostify Tab is a web transparency extension that simulates transparent browser windows for enhanced privacy and presentation capabilities.</p>
+                  </div>
+                  <div className={`flex items-center space-x-2 p-2 rounded ${isTransparent ? 'bg-white/5' : 'bg-gray-50'}`}>
+                    <Mail className={`w-4 h-4 ${isTransparent ? 'text-white/70' : 'text-gray-500'}`} />
+                    <span className={`text-xs ${isTransparent ? 'text-white/80' : 'text-gray-600'}`}>
+                      Support & Feedback:
+                    </span>
+                    <a 
+                      href="mailto:saymyname355601@gmail.com"
+                      className={`text-xs underline ${isTransparent ? 'text-blue-300 hover:text-blue-200' : 'text-blue-600 hover:text-blue-800'}`}
+                    >
+                      saymyname355601@gmail.com
+                    </a>
+                  </div>
+                  <div className={`text-xs ${isTransparent ? 'text-white/70' : 'text-gray-500'}`}>
+                    Version 1.0.0 • Open source project • MIT License
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
