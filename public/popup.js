@@ -1,4 +1,3 @@
-
 // Popup script for extension controls
 document.addEventListener('DOMContentLoaded', () => {
   const toggleBtn = document.getElementById('toggleBtn');
@@ -6,9 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const opacityValue = document.getElementById('opacityValue');
   const colorPicker = document.getElementById('colorPicker');
   const colorInput = document.getElementById('colorInput');
+  const themeSelect = document.getElementById('themeSelect');
+  const customColorGroup = document.getElementById('customColorGroup');
 
   // Load saved settings
-  chrome.storage.sync.get(['opacity', 'customColor'], (result) => {
+  chrome.storage.sync.get(['opacity', 'customColor', 'animationTheme'], (result) => {
     if (result.opacity) {
       opacitySlider.value = result.opacity;
       opacityValue.textContent = result.opacity + '%';
@@ -17,12 +18,34 @@ document.addEventListener('DOMContentLoaded', () => {
       colorPicker.value = result.customColor;
       colorInput.value = result.customColor;
     }
+    if (result.animationTheme) {
+      themeSelect.value = result.animationTheme;
+      toggleCustomColorGroup(result.animationTheme === 'custom');
+    }
   });
+
+  function toggleCustomColorGroup(show) {
+    customColorGroup.style.display = show ? 'block' : 'none';
+  }
 
   // Toggle transparency
   toggleBtn.addEventListener('click', () => {
     chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
       chrome.tabs.sendMessage(tabs[0].id, {action: 'toggle-transparency'});
+    });
+  });
+
+  // Theme selection
+  themeSelect.addEventListener('change', (e) => {
+    const theme = e.target.value;
+    toggleCustomColorGroup(theme === 'custom');
+    chrome.storage.sync.set({animationTheme: theme});
+    
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        action: 'update-settings',
+        animationTheme: theme
+      });
     });
   });
 

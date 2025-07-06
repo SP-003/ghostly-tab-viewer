@@ -5,9 +5,11 @@
   <meta charset="utf-8">
   <style>
     body {
-      width: 300px;
+      width: 320px;
       padding: 20px;
       font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
     }
     .control-group {
       margin-bottom: 15px;
@@ -17,20 +19,27 @@
       margin-bottom: 5px;
       font-weight: bold;
     }
-    input, button {
+    input, button, select {
       width: 100%;
       padding: 8px;
       margin-bottom: 10px;
+      border: none;
+      border-radius: 6px;
     }
     button {
-      background: #4169E1;
+      background: linear-gradient(45deg, #4169E1, #6A5ACD);
       color: white;
-      border: none;
-      border-radius: 4px;
       cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.2s;
     }
     button:hover {
-      background: #365BB0;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    select {
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
     }
     .color-picker {
       display: flex;
@@ -42,14 +51,42 @@
       height: 30px;
       border: none;
       border-radius: 4px;
+      cursor: pointer;
+    }
+    input[type="range"] {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    input[type="text"] {
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+    }
+    h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    small {
+      opacity: 0.8;
     }
   </style>
 </head>
 <body>
-  <h3>Ghostify Tab</h3>
+  <h3>👻 Ghostify Tab</h3>
   
   <div class="control-group">
     <button id="toggleBtn">Toggle Transparency</button>
+  </div>
+  
+  <div class="control-group">
+    <label>Animation Theme:</label>
+    <select id="themeSelect">
+      <option value="gradient">Animated Gradient</option>
+      <option value="ocean">Ocean Waves</option>
+      <option value="sunset">Sunset Glow</option>
+      <option value="forest">Forest Dreams</option>
+      <option value="neon">Neon Pulse</option>
+      <option value="custom">Custom Color</option>
+    </select>
   </div>
   
   <div class="control-group">
@@ -58,8 +95,8 @@
     <span id="opacityValue">50%</span>
   </div>
   
-  <div class="control-group">
-    <label>Color Theme:</label>
+  <div class="control-group" id="customColorGroup" style="display: none;">
+    <label>Custom Color:</label>
     <div class="color-picker">
       <input type="color" id="colorPicker" value="#4169E1">
       <input type="text" id="colorInput" value="#4169E1" placeholder="#4169E1">
@@ -67,7 +104,7 @@
   </div>
   
   <div class="control-group">
-    <small>Shortcuts: Alt+F12 (toggle), Alt+F11 (disable)</small>
+    <small>Shortcuts: Ctrl+Shift+T (toggle), Ctrl+Shift+D (disable)</small>
   </div>
 
   <script src="popup.js"></script>

@@ -1,8 +1,8 @@
-
 // Content script that will be injected into web pages
 let isTransparent = false;
 let opacity = 50;
 let customColor = '#4169E1';
+let animationTheme = 'gradient';
 
 // Create transparency overlay that covers the entire page
 function createTransparencyOverlay() {
@@ -53,7 +53,7 @@ function togglePageVisibility(hide) {
   }
 }
 
-// Update transparency effect
+// Update transparency effect with animations
 function updateTransparency() {
   let overlay = document.getElementById('ghostly-transparency-overlay');
   
@@ -62,6 +62,9 @@ function updateTransparency() {
       overlay = createTransparencyOverlay();
     }
     
+    // Clear existing animation classes
+    overlay.className = '';
+    
     const hexToRgba = (hex, alpha) => {
       const r = parseInt(hex.slice(1, 3), 16);
       const g = parseInt(hex.slice(3, 5), 16);
@@ -69,12 +72,35 @@ function updateTransparency() {
       return `rgba(${r}, ${g}, ${b}, ${alpha})`;
     };
     
-    overlay.style.background = `linear-gradient(45deg, 
-      ${hexToRgba(customColor, opacity / 100)} 0%, 
-      ${hexToRgba(customColor, opacity / 150)} 25%, 
-      ${hexToRgba('#FFD700', opacity / 100)} 50%, 
-      ${hexToRgba('#FF6B6B', opacity / 100)} 75%, 
-      ${hexToRgba('#4ECDC4', opacity / 100)} 100%)`;
+    // Apply animation theme
+    switch (animationTheme) {
+      case 'ocean':
+        overlay.classList.add('ghostly-theme-ocean', 'ghostly-particles');
+        break;
+      case 'sunset':
+        overlay.classList.add('ghostly-theme-sunset', 'ghostly-shimmer');
+        break;
+      case 'forest':
+        overlay.classList.add('ghostly-theme-forest', 'ghostly-particles');
+        break;
+      case 'neon':
+        overlay.classList.add('ghostly-theme-neon', 'ghostly-animate');
+        break;
+      case 'custom':
+        overlay.style.background = `linear-gradient(45deg, 
+          ${hexToRgba(customColor, opacity / 100)} 0%, 
+          ${hexToRgba(customColor, opacity / 150)} 25%, 
+          ${hexToRgba('#FFD700', opacity / 100)} 50%, 
+          ${hexToRgba('#FF6B6B', opacity / 100)} 75%, 
+          ${hexToRgba('#4ECDC4', opacity / 100)} 100%)`;
+        overlay.classList.add('ghostly-animate');
+        break;
+      default: // gradient
+        overlay.classList.add('ghostly-animated-bg', 'ghostly-particles');
+    }
+    
+    // Apply opacity
+    overlay.style.opacity = opacity / 100;
     
     // Hide page content and show transparent overlay
     togglePageVisibility(true);
@@ -101,6 +127,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       }
       if (request.customColor !== undefined) {
         customColor = request.customColor;
+      }
+      if (request.animationTheme !== undefined) {
+        animationTheme = request.animationTheme;
       }
       if (isTransparent) {
         updateTransparency();

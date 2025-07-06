@@ -29,13 +29,13 @@
   "commands": {
     "toggle-transparency": {
       "suggested_key": {
-        "default": "Alt+F12"
+        "default": "Ctrl+Shift+T"
       },
       "description": "Toggle transparency mode"
     },
     "disable-transparency": {
       "suggested_key": {
-        "default": "Alt+F11"
+        "default": "Ctrl+Shift+D"
       },
       "description": "Disable transparency mode"
     }
