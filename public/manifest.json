@@ -29,7 +29,7 @@
   "commands": {
     "toggle-transparency": {
       "suggested_key": {
-        "default": "Ctrl+Shift+T"
+        "default": "Ctrl+Shift+Z"
       },
       "description": "Toggle transparency mode"
     },

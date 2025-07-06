@@ -27,13 +27,13 @@ const TransparencyApp = () => {
     if (!enableKeyboard) return;
 
     const handleKeyPress = (event: KeyboardEvent) => {
-      // Alt + F12 to toggle transparency (uncommon browser shortcut)
-      if (event.altKey && event.key === 'F12') {
+      // Ctrl + Shift + Z to toggle transparency
+      if (event.ctrlKey && event.shiftKey && event.key === 'Z') {
         event.preventDefault();
         toggleTransparency();
       }
-      // Alt + F11 to disable transparency
-      if (event.altKey && event.key === 'F11' && isTransparent) {
+      // Ctrl + Shift + D to disable transparency
+      if (event.ctrlKey && event.shiftKey && event.key === 'D' && isTransparent) {
         event.preventDefault();
         setIsTransparent(false);
         toast("Transparency disabled");
@@ -70,16 +70,18 @@ const TransparencyApp = () => {
       className="min-h-screen w-full relative overflow-hidden"
       style={backgroundStyle}
     >
-      {/* Desktop simulation pattern */}
+      {/* Desktop simulation pattern - enhanced visibility */}
       {isTransparent && (
-        <div className="absolute inset-0 opacity-30">
+        <div className="absolute inset-0" style={{ opacity: Math.max(0.3, opacity[0] / 100) }}>
           <div className="grid grid-cols-12 grid-rows-8 h-full gap-1 p-4">
             {Array.from({ length: 96 }).map((_, i) => (
               <div 
                 key={i} 
-                className="bg-gradient-to-br from-blue-100 to-green-100 rounded-sm opacity-50 animate-pulse-custom"
+                className="bg-gradient-to-br from-white/40 to-white/20 rounded-sm animate-pulse-custom border border-white/10"
                 style={{
                   animationDelay: `${i * 0.1}s`,
+                  opacity: Math.max(0.4, opacity[0] / 150),
+                  backgroundColor: `rgba(255, 255, 255, ${Math.max(0.1, opacity[0] / 300)})`
                 }}
               />
             ))}
@@ -205,7 +207,7 @@ const TransparencyApp = () => {
                 <div className="space-y-3 text-sm">
                   <div className={`flex justify-between items-center ${isTransparent ? 'text-white/90' : 'text-gray-600'}`}>
                     <span>Toggle Transparency:</span>
-                    <code className="bg-gray-100/20 px-2 py-1 rounded font-mono text-xs">Ctrl+Shift+T</code>
+                    <code className="bg-gray-100/20 px-2 py-1 rounded font-mono text-xs">Ctrl+Shift+Z</code>
                   </div>
                   <div className={`flex justify-between items-center ${isTransparent ? 'text-white/90' : 'text-gray-600'}`}>
                     <span>Disable Mode:</span>
