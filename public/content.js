@@ -4,7 +4,7 @@ let isTransparent = false;
 let opacity = 50;
 let customColor = '#4169E1';
 
-// Create transparency overlay
+// Create transparency overlay that covers the entire page
 function createTransparencyOverlay() {
   const overlay = document.createElement('div');
   overlay.id = 'ghostly-transparency-overlay';
@@ -14,13 +14,43 @@ function createTransparencyOverlay() {
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 9999;
+    z-index: 999999;
     pointer-events: none;
     backdrop-filter: blur(2px);
     transition: all 0.3s ease-in-out;
+    display: none;
   `;
   document.body.appendChild(overlay);
   return overlay;
+}
+
+// Hide/show the main page content
+function togglePageVisibility(hide) {
+  const body = document.body;
+  const html = document.documentElement;
+  
+  if (hide) {
+    // Hide all page content except our overlay
+    body.style.visibility = 'hidden';
+    html.style.visibility = 'hidden';
+    
+    // Show only our overlay
+    const overlay = document.getElementById('ghostly-transparency-overlay');
+    if (overlay) {
+      overlay.style.visibility = 'visible';
+      overlay.style.display = 'block';
+    }
+  } else {
+    // Restore page visibility
+    body.style.visibility = 'visible';
+    html.style.visibility = 'visible';
+    
+    // Hide overlay
+    const overlay = document.getElementById('ghostly-transparency-overlay');
+    if (overlay) {
+      overlay.style.display = 'none';
+    }
+  }
 }
 
 // Update transparency effect
@@ -40,16 +70,17 @@ function updateTransparency() {
     };
     
     overlay.style.background = `linear-gradient(45deg, 
-      ${hexToRgba(customColor, opacity / 200)} 0%, 
-      ${hexToRgba(customColor, opacity / 300)} 25%, 
-      ${hexToRgba('#FFD700', opacity / 200)} 50%, 
-      ${hexToRgba('#FF6B6B', opacity / 200)} 75%, 
-      ${hexToRgba('#4ECDC4', opacity / 200)} 100%)`;
-    overlay.style.display = 'block';
+      ${hexToRgba(customColor, opacity / 100)} 0%, 
+      ${hexToRgba(customColor, opacity / 150)} 25%, 
+      ${hexToRgba('#FFD700', opacity / 100)} 50%, 
+      ${hexToRgba('#FF6B6B', opacity / 100)} 75%, 
+      ${hexToRgba('#4ECDC4', opacity / 100)} 100%)`;
+    
+    // Hide page content and show transparent overlay
+    togglePageVisibility(true);
   } else {
-    if (overlay) {
-      overlay.style.display = 'none';
-    }
+    // Show page content and hide overlay
+    togglePageVisibility(false);
   }
 }
 
@@ -63,6 +94,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     case 'disable-transparency':
       isTransparent = false;
       updateTransparency();
+      break;
+    case 'update-settings':
+      if (request.opacity !== undefined) {
+        opacity = parseInt(request.opacity);
+      }
+      if (request.customColor !== undefined) {
+        customColor = request.customColor;
+      }
+      if (isTransparent) {
+        updateTransparency();
+      }
       break;
   }
 });
